@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guesser Game (Bohubrihi)</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar sticky-top">
+        <h4 style="margin: 0 40%;">Number Guesser Game</h4>
+    </nav>
+    <div class="baksho">
+        <p id="notifications"></p>
+        <h4 style="text-align: center;" id="game_title">Pick a Number between 1 to 10<br />You will get 3 chances</h4>
+
+        <h3 style="text-align: center;" id="game_attempts">Attemp Left : <span id="attempts">3</span></h3>
+        <div>
+            <input class="form-control" min="1" max="10" type="number" class="form-control" id="input_value">
+            <button class="btn btn-success mt-2" id="check_btn">Check</button>
+            <button class="btn btn-warning mt-2" id="retry_btn" style="display: none;">Play
+                Again</button>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .navbar {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .baksho {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin: 3rem 40%;
+    }
+</style>
+<script>
+    let attempts = 3;
+    let low = 1;
+    let high = 10;
+    let correct_ans = Math.floor(Math.random() * (high - low + 1)) + low;
+    let SweetAlert = (type, text, sbgc, sc) => {
+        if ((type = 'success')) {
+            document.getElementById('notifications').style.display = 'block'
+            document.getElementById('notifications').innerText = text
+            document.getElementById('notifications').style.color = sc
+            document.getElementById('notifications').style.backgroundColor = sbgc
+            document.getElementById('notifications').style.padding = '1rem'
+
+        } else if ((type = 'failure')) {
+            document.getElementById('notifications').style.display = 'block'
+            document.getElementById('notifications').innerText = text
+            document.getElementById('notifications').style.color = sc
+            document.getElementById('notifications').style.backgroundColor = sbgc
+            document.getElementById('notifications').style.padding = '1rem'
+
+        }
+    }
+    let Start = () => {
+        location.reload()
+    }
+    let Game = () => {
+        let val = parseInt(document.getElementById('input_value').value)
+        if (attempts == 1) {
+            if (val === correct_ans) {
+                SweetAlert('success', 'You win!', 'green', 'white')
+                document.getElementById('retry_btn').style.display = 'block'
+                document.getElementById('check_btn').style.display = 'none'
+                document.getElementById('input_value').style.display = 'none'
+                document.getElementById('game_title').style.display = 'none'
+                document.getElementById('game_attempts').style.display = 'none'
+            }
+            else {
+                SweetAlert('failure', 'You lose!', 'red', 'white')
+                document.getElementById('retry_btn').style.display = 'block'
+                document.getElementById('check_btn').style.display = 'none'
+                document.getElementById('input_value').style.display = 'none'
+                document.getElementById('game_title').style.display = 'none'
+                document.getElementById('game_attempts').style.display = 'none'
+            }
+        }
+        else {
+            if (val === correct_ans) {
+                SweetAlert('success', 'You win!', 'green', 'white')
+                document.getElementById('retry_btn').style.display = 'block'
+                document.getElementById('check_btn').style.display = 'none'
+                document.getElementById('input_value').style.display = 'none'
+                document.getElementById('game_title').style.display = 'none'
+                document.getElementById('game_attempts').style.display = 'none'
+            }
+            else if (val < correct_ans) {
+                SweetAlert('failure', 'Correct answer is greater!', 'red', 'white')
+                attempts--
+                document.getElementById('attempts').innerText = attempts
+            }
+            else if (val > correct_ans) {
+                SweetAlert('failure', 'Correct answer is smaller!', 'red', 'white')
+                attempts--
+                document.getElementById('attempts').innerText = attempts
+            }
+
+        }
+        console.log(val, correct_ans, attempts);
+
+    }
+
+    document.getElementById('check_btn').addEventListener('click', Game)
+    document.getElementById('retry_btn').addEventListener('click', Start)
+
+</script>
