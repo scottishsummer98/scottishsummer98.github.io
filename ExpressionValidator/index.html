@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expression Validator (Bohubrihi)</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar sticky-top">
+        <h4 style="margin: 0 40%;">Expression Validator App</h4>
+    </nav>
+
+    <div class="baksho">
+        <p id="notifications"></p>
+        <div>
+            <select class="form-control" name="options" id="options">
+                <option selected disabled>Choose An Option</option>
+                <option value="email">Email</option>
+                <option value="phone">Phone Number</option>
+                <option value="po">Post Code</option>
+            </select>
+        </div>
+        <div id="input_section" style="display: none;">
+            <input class="form-control" type="text" class="form-control" id="input_value">
+            <button class="btn btn-success mt-2" id="check_btn">Check</button>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    .navbar {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .baksho {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin: 3rem 40%;
+    }
+</style>
+<script>
+    let showInputSection = () => {
+        document.getElementById('input_value').value = ''
+        document.getElementById('input_section').style = 'display:block'
+    }
+    let checkRE = () => {
+        let option = document.getElementById('options').value
+        let val = document.getElementById('input_value').value
+        let reg
+        switch (option) {
+            case "email":
+                reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                if (reg.test(val) == true) {
+                    SweetAlert('success', 'This Email Address is Valid', 'green', 'white')
+                }
+                else {
+                    SweetAlert('failure', 'Sorry, This Email Address is not Valid', 'red', 'white')
+                }
+                break;
+            case "phone":
+                reg = /^(?:\+88|88)?(01[3-9]\d{8})$/
+                if (reg.test(val) == true) {
+                    SweetAlert('success', 'This Phone Number is Valid', 'green', 'white')
+                }
+                else {
+                    SweetAlert('failure', 'Sorry, This Phone Number is not Valid', 'red', 'white')
+                }
+                break;
+            case "po":
+                reg = /^[0-9]{4}$/;
+                if (reg.test(val) == true) {
+                    SweetAlert('success', 'This Postal Code is Valid', 'green', 'white')
+                }
+                else {
+                    SweetAlert('failure', 'Sorry, This Postal Code is not Valid', 'red', 'white')
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    let SweetAlert = (type, text, sbgc, sc) => {
+        if ((type = 'success')) {
+            document.getElementById('notifications').style.display = 'block'
+            document.getElementById('notifications').innerText = text
+            document.getElementById('notifications').style.color = sc
+            document.getElementById('notifications').style.backgroundColor = sbgc
+            document.getElementById('notifications').style.padding = '1rem'
+            setTimeout(function () {
+                document.getElementById('notifications').style.display = 'none'
+            }, 1500)
+        } else if ((type = 'failure')) {
+            document.getElementById('notifications').style.display = 'block'
+            document.getElementById('notifications').innerText = text
+            document.getElementById('notifications').style.color = sc
+            document.getElementById('notifications').style.backgroundColor = sbgc
+            document.getElementById('notifications').style.padding = '1rem'
+            setTimeout(function () {
+                document.getElementById('notifications').style.display = 'none'
+            }, 1500)
+        }
+    }
+    document.getElementById('options').addEventListener('change', showInputSection)
+    document.getElementById('check_btn').addEventListener('click', checkRE)
+
+</script>
